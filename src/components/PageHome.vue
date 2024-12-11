@@ -7,8 +7,8 @@
             {{ thread.title }}
         </h2>
         <div v-for="postId in thread.posts" :key="postId">
-            <p>{{ data.users.find(u => u.id === data.posts.find(p => p.id === postId).userId)?.name }}</p>
-            <p>{{ data.posts.find(p => p.id === postId)?.text }}</p>
+            <p>{{ userById(postById(postId)?.userId || '')?.name }}</p>
+            <p>{{ postById(postId)?.text }}</p>
         </div>
     </div>
 </template>
@@ -17,6 +17,14 @@
     import { ref } from 'vue'
 
     const data = ref(sourceData)
+    
+    function postById(postId: string) {
+        return data.value.posts.find(p => p.id === postId);
+    }
+
+    function userById(userID: string) {
+        return data.value.users.find(u => u.id === userID);
+    }
 
 </script>
 <style></style>
